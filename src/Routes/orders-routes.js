@@ -1,5 +1,5 @@
 const express = require('express')
-const OrdersController = require('../../Domain/Controllers/orders-controllers')
+const OrdersController = require('../Domain/Controllers/orders-controllers')
 const routerOrders = express.Router()
 routerOrders.post('/show-order', OrdersController.OrderUserShow)
 routerOrders.post('/post-order', OrdersController.OrderUserPost)
