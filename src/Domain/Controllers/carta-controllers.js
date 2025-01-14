@@ -19,5 +19,14 @@ class CartaController {
             return res.status(500).json({ message: 'Server Error' })
         }
     }
+    static async cartaDescription(req,res){
+        try{
+            const descCarta = await CartaModel.cartaDesc()
+            return res.send(descCarta)
+        }catch(e){
+            console.log(e)
+            return res.status(500).json({ message: 'Server Error' })
+        }
+    }
 }
 module.exports=CartaController

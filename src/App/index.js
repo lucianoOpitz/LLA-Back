@@ -3,8 +3,14 @@ const fs = require ( 'fs' )
 const https = require('https')
 const app = express()
 const bodyParser = require("body-parser")
-var cors = require ("cors")
 const ENV = require ("../Env")
+var cors = require ("cors")
+app.use ( ( req, res, next ) => { 
+    res. setHeader ( 'Access-Control-Allow-Origin' ,  ENV.CLIENT); // Permitir solicitudes desde cualquier origen
+     res. setHeader ( 'Access-Control-Allow-Methods' , 'GET, POST, PUT, DELETE' ); 
+    res. setHeader ( 'Access-Control-Allow-Headers' , 'Content-Type, Authorization' ); 
+     next (); 
+});
 app.use(cors({
     credentials: true,
     origin: ENV.CLIENT
@@ -47,10 +53,14 @@ app.post('/post-order', routerOrders)
 app.post('/up-order', routerOrders)
 app.post('/up-order-comentary', routerOrders)
 app.post('/del-order', routerOrders)
-app.post('/show-carta', routerCarta)
+app.get('/show-carta', routerCarta)
 app.get('/show-all-carta', routerCarta)
+app.get('/show-carta-desc', routerCarta)
 app.get('/prensa', routerPrensa)
 
-const options = {}
-const server = https.createServer(app)
+const options = {
+    key: fs.readFileSync('./localhost-key.pem'), 
+    cert: fs.readFileSync('./localhost.pem') 
+}
+const server = https.createServer(options, app)
 module.exports = server
